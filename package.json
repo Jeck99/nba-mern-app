@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node server/server.js",
-    "client":"cd client && npm run start",
-    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\""
-
+    "client": "cd client && npm run start",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "setup": "npm install && cd client && npm install",
+    "build":""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

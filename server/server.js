@@ -3,6 +3,7 @@ dotenv.config();
 const express = require('express');
 const cors = require('cors');
 require('./DB')
+const path = require('path');
 const teamsRouter = require('./routes/teams-router');
 const usersRouter = require('./routes/user-router')
 const passport = require('passport');
@@ -15,8 +16,8 @@ app.use(express.json({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors())
 
-app.use('/teams',passport.authenticate('jwt', { session: false }), teamsRouter);
-app.use('/users',usersRouter);
+app.use('/api/teams',passport.authenticate('jwt', { session: false }), teamsRouter);
+app.use('/api/users',usersRouter);
 
 app.get('/', (req, res) => {
     res.send({ massage: "success" })
@@ -25,3 +26,11 @@ app.listen(port, () => {
     console.log(process.env.CONNECTION_STRING);
     console.log(`server listen on port: ${port}`);
 })
+//*****************************************************************/
+if (process.env.NODE_ENV === 'production') {
+    app.use(express.static(path.join(__dirname, '../client/build')));
+    app.get('*', (req, res)=>{
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+    });
+  }
+//*******************************************************************/
